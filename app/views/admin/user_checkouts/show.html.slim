@@ -1,0 +1,17 @@
+h1 User Checkout Details
+
+= link_to 'Back', admin_products_path
+
+p Date: #{@user_checkout.created_at}
+p User: #{@user_checkout.user.email}
+p Total Price: #{number_to_currency(@user_checkout.total_price)}
+
+- if @user_checkout.checkout_items.present?
+  h2 Products:
+  ul
+    - @user_checkout.checkout_items.each do |item|
+      li
+        = item.product.name
+        |  (Qty: #{item.quantity})
+- else
+  p No products associated with this user checkout.

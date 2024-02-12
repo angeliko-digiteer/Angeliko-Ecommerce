@@ -1,0 +1,20 @@
+= form_with(model: @product, url: admin_products_path, method: :post) do |form|
+  div
+    = form.label :name
+    br
+    = form.text_field :name
+
+  div
+    = form.label :description
+    br
+    = form.text_area :description
+
+  div
+    = form.label :price
+    br
+    = form.text_field :price
+    br
+    br
+  div
+    = form.submit 'Create Product'
+    

@@ -1,0 +1,52 @@
+h2 Hello! Welcome. #{current_user.email} 
+
+= link_to "Sign out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete }
+br
+= link_to "Update Information", edit_user_registration_path
+br
+br
+= link_to 'View Cart', users_cart_path
+br
+br
+br
+
+
+br
+table
+  thead
+    tr
+      th Name
+      th Description
+      th Price
+      th Show more 
+      th Quantity
+  tbody
+    - @products.each do |product|
+      tr
+        td= product.name
+        td= product.description
+        td= product.price
+        td= link_to 'Show', users_product_path(product)
+        td
+          = form_tag add_item_users_cart_path(product.id), method: :post do
+            = hidden_field_tag :product_id, product.id
+            = number_field_tag :quantity, 1, min: 0
+            = submit_tag 'Add to Cart', class: 'btn btn-primary'
+
+h3 Checkout History
+table
+  thead
+    tr
+      th Date
+      th Products
+      th Total Price
+
+  tbody
+    - @checkout_history.each do |checkout|
+      tr
+        td= checkout.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        td
+          ul
+            - checkout.checkout_items.each do |checkout_item|
+              li= "#{checkout_item.product.name} (Qty: #{checkout_item.quantity})"
+        td= number_to_currency(checkout.total_price)

@@ -1,0 +1,62 @@
+h1 Admin Products
+
+= link_to "Sign out", destroy_admin_session_path, method: :delete, data: { turbo_method: :delete }
+br
+= link_to "Update Information", edit_admin_registration_path
+br
+br
+br
+= link_to 'New Product', new_admin_product_path
+br
+br
+br
+
+/ form action="#{admin_products_path}"
+/   label for="Search" placeholder="Search"
+/   input name="search" id="search" type='text'
+/   button type="submit" Submit 
+
+= form_tag action="#{admin_products_path}", method: :get, data: { turbo_frame: "product_item", turbo_action: "advance", controller: "search", action: "input->search#submit" } do |f| 
+  = text_field_tag "search", nil, placeholder: "Search...", value: params[:search]
+  = submit_tag "Search"
+br
+turbo-frame#product_list
+  table
+    thead
+      tr
+        th Name
+        th Description
+        th Price
+        th Actions
+
+    tbody
+      - @products.each do |product|
+        tr
+          td= product.name
+          td= product.description
+          td= product.price
+          td
+            = link_to 'Show', admin_product_path(product)
+            = link_to 'Edit', edit_admin_product_path(product)
+            = link_to 'Delete', admin_product_path(product), data: { turbo_method: 'delete', confirm: 'Are you sure?' }
+
+
+
+
+h2 User Checkout History
+table
+  thead
+    tr
+      th User Email
+      th Date & Time
+      th Total Price
+      th Other Details
+
+  tbody
+    - @user_checkouts.each do |checkout|
+      tr
+        td= checkout.user.email
+        td= checkout.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        td= number_to_currency(checkout.total_price)
+        td= link_to 'View checkout details', admin_user_checkout_path(checkout)
+

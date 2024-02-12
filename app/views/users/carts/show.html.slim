@@ -1,0 +1,25 @@
+h1 MY CART
+
+= link_to 'Back', users_products_path
+
+- if @cart.cart_items.present?
+  table
+    tr
+      th Product
+      th Quantity
+      th Price
+
+    - @cart.cart_items.each do |cart_item|
+      tr
+        td= cart_item.product.name
+        td= cart_item.quantity
+        td= cart_item.product.price
+        td= button_to 'Remove', remove_item_from_cart_users_cart_path(cart_item.id), method: :delete, data: { confirm: 'Are you sure?' }
+
+
+
+  p Total: #{number_to_currency(@cart&.total_price)}
+  = button_to 'Checkout', checkout_users_cart_path, method: :post, data: { confirm: 'Are you sure you want to checkout?' }
+
+- else
+  p Cart is empty.

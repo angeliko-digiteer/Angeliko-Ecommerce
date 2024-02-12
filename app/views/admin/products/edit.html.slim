@@ -1,0 +1,23 @@
+h3 Edit Product
+
+= form_with(model: @product, url: admin_product_path(@product), method: :patch) do |form|
+  div
+    = form.label :name
+    br
+    = form.text_field :name
+
+  div
+    = form.label :description
+    br
+    = form.text_area :description
+
+  div
+    = form.label :price
+    br
+    = form.text_field :price
+    br
+    br
+  div
+    = form.submit 'Update Product'
+    br
+    = link_to 'Back', admin_products_path

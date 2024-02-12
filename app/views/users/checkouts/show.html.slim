@@ -1,0 +1,11 @@
+h1 Checkout Confirmation
+
+p Your checkout was successful.
+
+
+p Order ID: #{@checkout.id}
+p Date: #{@checkout.created_at.strftime}
+
+
+= link_to 'View Order Details', users_checkout_path(@checkout)
+= link_to 'Return to Cart', users_cart_path

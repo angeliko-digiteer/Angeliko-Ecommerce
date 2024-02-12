@@ -1,0 +1,22 @@
+h1 NIKE AIR BNB
+
+- if user_signed_in?
+    = link_to "Sign out", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}
+    br
+    = link_to "Update Information", edit_user_registration_path
+    p Welcome #{current_user.first_name} #{current_user.last_name}
+- elsif !admin_signed_in?
+    = link_to "Create an account", new_user_registration_path
+    br
+    = link_to "Log in", new_user_session_path
+end
+br
+- if admin_signed_in?
+    = link_to "Sign out", destroy_admin_session_path, method: :delete, data: {turbo_method: :delete}
+    br
+    = link_to "Update Information", edit_admin_registration_path
+- elsif !user_signed_in? 
+    = link_to "Create an admin account!", new_admin_registration_path
+    br
+    = link_to "Admin login", new_admin_session_path
+end
